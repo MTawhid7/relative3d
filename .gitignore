@@ -34,17 +34,23 @@ ENV/
 .idea/
 
 # Project Specific - CRITICAL EXCLUSIONS
-# 1. Exclude Model Weights (Too large for GitHub)
+# 1. Exclude Model Weights & Cloned Repos
 checkpoints/
 *.safetensors
 *.pt
 *.bin
 *.pth
+*.onnx
 
 # 2. Exclude Data & Outputs
 input/
 outputs/
+output/
 data/
 
 # 3. Logs
+logs/
 *.log
+
+# 4. System
+.DS_Store

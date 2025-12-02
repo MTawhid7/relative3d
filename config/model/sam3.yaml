@@ -2,5 +2,5 @@
 segmentation:  # <--- This root key is required!
   repo_id: "./checkpoints/sam3"
   model_type: "sam3_h"
-  prompt: "t-shirt"
+  prompt: "person wearing t-shirt"
   device: "cuda"

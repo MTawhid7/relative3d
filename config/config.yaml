@@ -9,10 +9,20 @@ project:
   device: "cuda"
   seed: 2025
 
+# Disable Hydra's automatic directory creation
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+
 paths:
-  # Changed from "./data/inputs" to match your request
   input_dir: "./input"
-  output_dir: "./outputs/${now:%Y-%m-%d_%H-%M-%S}"
+  # New Structured Output Paths
+  output_root: "./output"
+  segmentation_dir: "${paths.output_root}/segmentation"
+  depth_dir: "${paths.output_root}/depth"
+  normals_dir: "${paths.output_root}/normals"
+  cloud_dir: "${paths.output_root}/pointclouds"
 
 visualization:
   enable_viser: true
