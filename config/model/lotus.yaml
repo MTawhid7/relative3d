@@ -1,0 +1,5 @@
+depth:
+  # Verified v2.1 model from Jan 2025 update
+  repo_id: "jingheya/lotus-depth-g-v2-1-disparity"
+  dtype: "fp16"
+  steps: 1 # Rectified Flow allows 1-step inference
