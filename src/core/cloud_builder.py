@@ -6,19 +6,22 @@ def create_point_cloud(
     depth_map: np.ndarray,
     normal_map: np.ndarray,
     mask: np.ndarray,
-    mode: str = "linear",  # Options: "linear", "inverse"
-    depth_scale: float = 0.5
+    mode: str = "linear",
+    depth_scale: float = 0.5,
+    fov_deg: float = 60.0  # <--- Added this argument back
 ) -> o3d.geometry.PointCloud:
     """
     Args:
         depth_map: Normalized depth/disparity (0..1)
         mode: 'linear' (Bas-Relief) or 'inverse' (Perspective)
-        depth_scale: How 'thick' the object should be in meters (approx)
+        depth_scale: How 'thick' the object should be in meters
+        fov_deg: Camera Field of View (lower = flatter telephoto look)
     """
     height, width = depth_map.shape
 
-    # 1. Camera Intrinsics (Approximate for 60 deg FOV)
-    fov_rad = np.deg2rad(60.0)
+    # 1. Camera Intrinsics
+    # Calculate focal length based on the provided FOV
+    fov_rad = np.deg2rad(fov_deg)
     focal_length = (width / 2) / np.tan(fov_rad / 2)
     cx, cy = width / 2, height / 2
 
@@ -33,12 +36,12 @@ def create_point_cloud(
 
     # 4. Heuristic Z-Mapping
     if mode == "linear":
-        # Bas-Relief: Z is linearly proportional to pixel brightness
-        # We push the object back 1.0m so it's not inside the camera
+        # Bas-Relief
         z_metric = (1.0 - z_raw) * depth_scale + 1.0
     else:
-        # Inverse: Z is inversely proportional (Pinhole physics)
-        # Avoid division by zero with epsilon
+        # Inverse (Perspective) - Best for human volume
+        # We invert the disparity to get depth, then scale it
+        # (z_raw + 0.1) prevents division by zero
         z_metric = 1.0 / (z_raw + 0.1) * depth_scale
 
     # 5. Back-Projection
