@@ -1,0 +1,5 @@
+normal:
+  repo_id: "./checkpoints/lotus-normal"
+  dtype: "fp16"
+  device: "cuda"
+  steps: 1

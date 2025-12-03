@@ -2,7 +2,7 @@ defaults:
   - _self_
   - model/sam3
   - model/lotus
-  - model/stablenormal
+  - model/lotus_normal
 
 project:
   name: "Relative-3D"
